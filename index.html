@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#245b45">
+  <title>FarmFeed Calculator</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="mark">FF</div><div><h1>FarmFeed Calculator</h1><p>Offline livestock feed planner</p></div></div>
+  <span id="connection" class="pill">Checking…</span>
+</header>
+<main>
+  <section class="notice">
+    <strong>Feeding estimate, not a veterinary ration prescription.</strong>
+    <p>Set the dry-matter intake target only with advice appropriate to the animal's age, production stage and health. Confirm that the feed is formulated and labelled for sheep or goats. Sheep are particularly sensitive to excess copper.</p>
+  </section>
+  <nav class="tabs" aria-label="Main sections">
+    <button class="tab active" data-tab="calculator">Calculator</button>
+    <button class="tab" data-tab="animals">Animals</button>
+    <button class="tab" data-tab="history">Records</button>
+  </nav>
+
+  <section id="calculator" class="panel active">
+    <div class="section-head"><div><h2>Daily TMR calculator</h2><p>Calculate feed from live weight and dry-matter values.</p></div></div>
+    <div class="grid two">
+      <label>Animal<select id="animalSelect"><option value="">Manual entry</option></select></label>
+      <label>Species<select id="species"><option>Sheep</option><option>Goat</option></select></label>
+      <label>Live body weight (kg)<input id="weight" type="number" min="0.1" step="0.1" value="16"></label>
+      <label>Target dry-matter intake (% of body weight)<input id="intakePct" type="number" min="0.1" max="10" step="0.1" value="3"></label>
+      <label>TMR dry matter (%)<input id="dmPct" type="number" min="1" max="100" step="1" value="60"></label>
+      <label>Servings per day<select id="servings"><option>2</option><option selected>3</option><option>4</option></select></label>
+    </div>
+    <div class="formula">
+      <span>Formula</span>
+      Daily TMR as-fed (kg) = Live weight × DM intake fraction ÷ TMR DM fraction
+    </div>
+    <div class="result">
+      <div><span class="muted">Estimated daily TMR (as-fed)</span><div class="big" id="dailyKg">0.800 kg</div><div class="muted" id="dmGrams">480 g dry matter per day</div></div>
+      <div class="result-icon">⚖️</div>
+    </div>
+    <h3>Serving schedule</h3>
+    <div id="servingRows" class="servings"></div>
+    <div class="actions">
+      <button class="primary" id="saveRecord">Save feed record</button>
+      <button class="secondary" id="resetCalc">Reset calculator</button>
+    </div>
+    <p class="hint">The starting value of 3% is an editable example for calculation only. It is not automatically appropriate for every lamb, kid, weaned animal or suckling animal. The previous bag photo showed 60% DM and 18% crude protein on a DM basis; ME units and species suitability still need confirmation.</p>
+  </section>
+
+  <section id="animals" class="panel">
+    <div class="section-head"><div><h2>Animal register</h2><p>Records stay in this browser on this device.</p></div></div>
+    <form id="animalForm" class="form-card">
+      <input type="hidden" id="animalId">
+      <div class="grid two">
+        <label>Animal name / ID<input id="animalName" required maxlength="40" placeholder="e.g. Lamb 01"></label>
+        <label>Species<select id="animalSpecies"><option>Sheep</option><option>Goat</option></select></label>
+        <label>Age / notes<input id="animalAge" maxlength="60" placeholder="e.g. 2–3 months"></label>
+        <label>Current live weight (kg)<input id="animalWeight" type="number" min="0.1" step="0.1" required></label>
+      </div>
+      <div class="actions"><button class="primary" type="submit" id="animalSubmit">Add animal</button><button class="secondary" type="button" id="cancelEdit">Clear</button></div>
+    </form>
+    <div id="animalList" class="cards"></div>
+  </section>
+
+  <section id="history" class="panel">
+    <div class="section-head"><div><h2>Feed records</h2><p>Saved calculations and weights on this device.</p></div></div>
+    <div class="actions"><button class="secondary" id="exportData">Export backup (JSON)</button><label class="file-btn">Import backup<input type="file" id="importData" accept="application/json"></label><button class="danger" id="clearHistory">Clear records</button></div>
+    <div id="historyList" class="records"></div>
+  </section>
+  <footer>FarmFeed Calculator · Works offline after the app has been opened once online and cached. Data is stored locally; it does not automatically sync between phone and laptop.</footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

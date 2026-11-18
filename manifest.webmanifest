@@ -1,0 +1,17 @@
+{
+  "name": "FarmFeed Calculator",
+  "short_name": "FarmFeed",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f3",
+  "theme_color": "#245b45",
+  "description": "Offline livestock TMR dosage calculator and animal records",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
